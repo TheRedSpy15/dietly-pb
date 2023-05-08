@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     openssh
 
 # download and unzip PocketBase
-ADD https://github.com/TheRedSpy15/dietly-pb/releases/download/${PB_VERSION}/gin.zip /tmp/pb.zip
+ADD https://github.com/TheRedSpy15/dietly-pb/releases/download/${PB_VERSION}/dietly-pb.zip /tmp/pb.zip
 RUN unzip /tmp/pb.zip -d /pb/
 
 EXPOSE 8080
