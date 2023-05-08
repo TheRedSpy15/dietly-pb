@@ -9,7 +9,10 @@ RUN apk add --no-cache \
 
 # download and unzip PocketBase
 ADD https://github.com/TheRedSpy15/dietly-pb/releases/download/${PB_VERSION}/dietly-pb.zip /tmp/pb.zip
-RUN unzip /tmp/pb.zip -d /pb/
+RUN unzip /tmp/pb.zip -d /pb/ && \
+    chmod +x /pb/dietly-pb
+
+WORKDIR /pb
 
 EXPOSE 8080
 
