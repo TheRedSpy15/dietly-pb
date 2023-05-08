@@ -1,4 +1,4 @@
-module gin
+module dietly-pb
 
 go 1.20
 
