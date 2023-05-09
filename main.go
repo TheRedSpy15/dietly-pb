@@ -94,6 +94,7 @@ func main() {
 			}
 
 			healthRecord := models.NewRecord(healthCollection)
+			healthRecord.SetId(id)
 			healthRecord.Set("user", id)
 			healthRecord.Set("height", 0)
 			healthRecord.Set("weight", 0)
