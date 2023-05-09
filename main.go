@@ -29,38 +29,22 @@ var swearWords = []string{
 func main() {
 	app := pocketbase.New()
 
-	// record create (before)
-	app.OnRecordBeforeCreateRequest().Add(func(e *core.RecordCreateEvent) error {
-		log.Println(e.Record) // still unsaved
-
-		if e.Collection.Name == "progressPosts" {
-			title := e.Record.GetString("title")
-			description := e.Record.GetString("description")
-
-			filteredTitle := title
-			for _, word := range swearWords {
-				filteredTitle = strings.ReplaceAll(filteredTitle, word, "****")
-			}
-			log.Print("Filtered title: " + filteredTitle)
-			e.Record.Set("title", filteredTitle)
-
-			filteredDesc := description
-			for _, word := range swearWords {
-				filteredDesc = strings.ReplaceAll(filteredDesc, word, "****")
-			}
-			log.Print("Filtered description: " + filteredDesc)
-			e.Record.Set("description", filteredDesc)
-
-		}
+	// oauth (before)
+	app.OnRecordBeforeAuthWithOAuth2Request().Add(func(e *core.RecordAuthWithOAuth2Event) error {
+		log.Println("OAuth before")
+		log.Println(e.Record) // could be nil
+		log.Println(e.OAuth2User)
 
 		return nil
 	})
 
-	// record create (after)
-	app.OnRecordAfterCreateRequest().Add(func(e *core.RecordCreateEvent) error {
-		log.Println(e.Record) // still unsaved
+	// oauth (after)
+	app.OnRecordAfterAuthWithOAuth2Request().Add(func(e *core.RecordAuthWithOAuth2Event) error {
+		log.Println("OAuth after")
+		log.Println(e.Record)
+		log.Println(e.OAuth2User)
 
-		if e.Collection.Name == "users" {
+		if e.IsNewRecord {
 			id := e.Record.GetId()
 			log.Println("user record created", id)
 
@@ -123,7 +107,43 @@ func main() {
 			if err := app.Dao().SaveRecord(healthRecord); err != nil {
 				log.Println(err)
 			}
-		} else if e.Collection.Name == "comments" {
+		}
+
+		return nil
+	})
+
+	// record create (before)
+	app.OnRecordBeforeCreateRequest().Add(func(e *core.RecordCreateEvent) error {
+		log.Println(e.Record) // still unsaved
+
+		if e.Collection.Name == "progressPosts" {
+			title := e.Record.GetString("title")
+			description := e.Record.GetString("description")
+
+			filteredTitle := title
+			for _, word := range swearWords {
+				filteredTitle = strings.ReplaceAll(filteredTitle, word, "****")
+			}
+			log.Print("Filtered title: " + filteredTitle)
+			e.Record.Set("title", filteredTitle)
+
+			filteredDesc := description
+			for _, word := range swearWords {
+				filteredDesc = strings.ReplaceAll(filteredDesc, word, "****")
+			}
+			log.Print("Filtered description: " + filteredDesc)
+			e.Record.Set("description", filteredDesc)
+
+		}
+
+		return nil
+	})
+
+	// record create (after)
+	app.OnRecordAfterCreateRequest().Add(func(e *core.RecordCreateEvent) error {
+		log.Println(e.Record) // still unsaved
+
+		if e.Collection.Name == "comments" {
 			// create a new record in the notifications collection
 			collection, err := app.Dao().FindCollectionByNameOrId("notifications")
 			if err != nil {

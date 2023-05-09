@@ -1,6 +1,7 @@
+# TODO: distroless?
 FROM alpine:latest
 
-ARG PB_VERSION=0.15.3
+ARG PB_VERSION=0.15.3b
 
 RUN apk add --no-cache \
     unzip \
@@ -16,4 +17,5 @@ WORKDIR /pb
 
 EXPOSE 8080
 
+# TODO: use https?
 CMD ["./dietly-pb", "serve", "--http=0.0.0.0:8080", "--encryptionEnv=PB_ENCRYPTION_KEY"]
