@@ -1,7 +1,7 @@
 # TODO: distroless?
 FROM alpine:latest
 
-ARG PB_VERSION=0.15.3c
+ARG PB_VERSION=latest
 
 RUN apk add --no-cache \
     unzip \
