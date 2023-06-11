@@ -28,11 +28,12 @@ jobs:
       run: zip dietly-pb.zip dietly-pb
 
     - name: Publish Release
-      uses: actions/upload-release-asset@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./dietly-pb.zip
-        asset_name: dietly-pb.zip
-        asset_content_type: application/zip
+        files: dietly-pb.zip
+        tag_name: v${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        body: |
+          refer to https://github.com/pocketbase/pocketbase/releases
