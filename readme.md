@@ -18,5 +18,6 @@ Currently we are using the free plan at fly.io
     - [requires fly.io cli tools](https://fly.io/docs/hands-on/install-flyctl/)
     - Run `flyctl auth signup` to create a Fly.io account (email or GitHub).
     - Run `flyctl auth login` to login.
+    - If on Windows run `$Env:GOOS = "linux"; $Env:GOARCH = "amd64"`
 - deploy
     `flyctl deploy`

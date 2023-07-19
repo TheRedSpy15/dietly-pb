@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -55,7 +55,7 @@ func main() {
 			}
 
 			// get image from https://api.dicebear.com/6.x/miniavs/svg?seed={id}
-			url := "https://api.dicebear.com/6.x/miniavs/png?seed=" + id
+			url := "https://api.dicebear.com/6.x/miniavs/svg?seed=" + id
 			log.Println(url)
 
 			// use http.get
@@ -74,19 +74,19 @@ func main() {
 			defer fs.Close()
 
 			// get resp.body bytes
-			body, err := ioutil.ReadAll(resp.Body)
+			body, err := io.ReadAll(resp.Body)
 			if err != nil {
 				log.Println("error reading body", err)
 			}
 
 			// upload file
-			fileKey := e.Record.BaseFilesPath() + "/avatar.png"
+			fileKey := e.Record.BaseFilesPath() + "/avatar.svg"
 			err = fs.Upload(body, fileKey)
 			if err != nil {
 				log.Println("error uploading file", err)
 				return err
 			}
-			e.Record.Set("avatar", "avatar.png")
+			e.Record.Set("avatar", "avatar.svg")
 
 			// save record
 			if err := app.Dao().SaveRecord(e.Record); err != nil {

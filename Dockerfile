@@ -1,7 +1,7 @@
 # TODO: distroless?
 FROM alpine:latest
 
-ARG PB_VERSION=latest
+ARG PB_VERSION=0.16.10
 
 RUN apk add --no-cache \
     unzip \
@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     openssh
 
 # download and unzip PocketBase
-ADD https://github.com/TheRedSpy15/dietly-pb/releases/${PB_VERSION}/download/dietly-pb.zip /tmp/pb.zip
+ADD https://github.com/TheRedSpy15/dietly-pb/releases/download/${PB_VERSION}/dietly-pb.zip /tmp/pb.zip
 RUN unzip /tmp/pb.zip -d /pb/ && \
     chmod +x /pb/dietly-pb
 
