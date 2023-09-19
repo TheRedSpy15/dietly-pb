@@ -157,10 +157,17 @@ func main() {
 				log.Println(err)
 			}
 
+			// create notification message: "x commented on your post"
+			// get createdBy record
+			createdBy, err := app.Dao().FindRecordById("users", e.Record.GetString("createdBy"))
+			if err != nil {
+				log.Println(err)
+			}
+
 			record := models.NewRecord(collection)
 			record.Set("viewed", false)
 			record.Set("for", post.GetString("creator"))
-			record.Set("message", false)
+			record.Set("message", createdBy.GetString("username")+" commented on your post")
 			record.Set("post", e.Record.Get("post"))
 
 			if err := app.Dao().SaveRecord(record); err != nil {
