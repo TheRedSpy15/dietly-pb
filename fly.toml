@@ -19,7 +19,7 @@ processes = []
 
 # optional if you want to change the PocketBase version
 [build.args]
-  PB_VERSION="0.16.10"
+  PB_VERSION="0.18.9"
 
 [[services]]
   http_checks   = []
