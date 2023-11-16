@@ -17,10 +17,6 @@ processes = []
   destination = "/pb/pb_data"
   source = "pb_data"
 
-# optional if you want to change the PocketBase version
-[build.args]
-  PB_VERSION="0.18.9"
-
 [[services]]
   http_checks   = []
   internal_port = 8080
