@@ -24,19 +24,13 @@ var swearWords = []string{
 	"penis",
 	"crypto",
 	"cunt",
+	"bastard",
+	"piss",
+	"slut",
 }
 
 func main() {
 	app := pocketbase.New()
-
-	// oauth (before)
-	app.OnRecordBeforeAuthWithOAuth2Request().Add(func(e *core.RecordAuthWithOAuth2Event) error {
-		log.Println("OAuth before")
-		log.Println(e.Record) // could be nil
-		log.Println(e.OAuth2User)
-
-		return nil
-	})
 
 	// oauth (after)
 	app.OnRecordAfterAuthWithOAuth2Request().Add(func(e *core.RecordAuthWithOAuth2Event) error {
